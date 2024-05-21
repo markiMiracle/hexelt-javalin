@@ -9,7 +9,12 @@ public class HelloWorld {
             config.bundledPlugins.enableDevLogging();
         });
         // Описываем, что загрузится по адресу /
-        app.get("/", ctx -> ctx.result("Hello World"));
+        app.get("/users", ctx -> ctx.result("GET /users"));
+        app.post("/users", ctx -> ctx.result("Post /users"));
+        app.get("/hello", ctx -> {
+            var hello = ctx.queryParamAsClass("hello", String.class).getOrDefault("World");
+            ctx.result("Hello, " + hello + "!");
+        });
         app.start(7070); // Стартуем веб-сервер
     }
 }
