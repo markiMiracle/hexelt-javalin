@@ -1,24 +1,30 @@
 package org.example.hexlet;
 
 import io.javalin.Javalin;
+import io.javalin.rendering.template.JavalinJte;
+import org.example.hexlet.dto.courses.CoursesPage;
+import org.example.hexlet.model.Course;
+
+import java.util.ArrayList;
+
+import static io.javalin.rendering.template.TemplateUtil.model;
 
 public class HelloWorld {
     public static void main(String[] args) {
-        // Создаем приложение
         var app = Javalin.create(config -> {
             config.bundledPlugins.enableDevLogging();
+            config.fileRenderer(new JavalinJte());
         });
-        // Описываем, что загрузится по адресу /
-        app.get("/users", ctx -> ctx.result("GET /users"));
-        app.post("/users", ctx -> ctx.result("Post /users"));
-        app.get("/hello", ctx -> {
-            var hello = ctx.queryParamAsClass("hello", String.class).getOrDefault("World");
-            ctx.result("Hello, " + hello + "!");
+
+        app.get("/courses", ctx -> {
+            var course1 = new Course("Java", "Is good!");
+            var courses = new ArrayList<Course>();
+            courses.add(course1);
+            var header = "Курсы по программированию";
+            var page = new CoursesPage(courses, header);
+            ctx.render("index.jte", model("page", page));
         });
-        app.get("/users/{id}/posts/{post-id}", ctx -> {
-            ctx.result("User-id = " + ctx.pathParam("id") + "\n" + "Post-id = "
-            + ctx.pathParam("post-id"));
-        });
-        app.start(7070); // Стартуем веб-сервер
+
+        app.start(7070);
     }
 }
