@@ -15,6 +15,10 @@ public class HelloWorld {
             var hello = ctx.queryParamAsClass("hello", String.class).getOrDefault("World");
             ctx.result("Hello, " + hello + "!");
         });
+        app.get("/users/{id}/posts/{post-id}", ctx -> {
+            ctx.result("User-id = " + ctx.pathParam("id") + "\n" + "Post-id = "
+            + ctx.pathParam("post-id"));
+        });
         app.start(7070); // Стартуем веб-сервер
     }
 }
