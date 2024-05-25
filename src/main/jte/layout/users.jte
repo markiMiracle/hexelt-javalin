@@ -1,12 +1,10 @@
 
-@import gg.jte.Content
-@param Content content
+@import org.example.hexlet.dto.UsersPage
+@param UsersPage page
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>my site</title>
 </head>
 <body>
@@ -25,8 +23,16 @@
     </div>
 </div>
 <div class="content">
-    <h1>добро пожаловать на мой сайт)</h1>
+    <h1>Пользователи:</h1>
 </div>
-
+@if(page.getUsers().isEmpty())
+    <p>Пока не добавлено ни одного пользователя</p>
+@else
+    @for(var user : page.getUsers())
+        <ul>
+            <li>${user.getId()} ${user.getFirstName()} ${user.getLastName()}</li>
+        </ul>
+    @endfor
+@endif
 </body>
 </html>
