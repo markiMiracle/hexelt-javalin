@@ -2,6 +2,8 @@ package org.example.hexlet;
 
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
+import io.javalin.validation.ValidationException;
+import org.example.hexlet.dto.BuildUserPage;
 import org.example.hexlet.dto.UsersPage;
 import org.example.hexlet.model.User;
 import org.example.hexlet.repository.UserRepository;
@@ -22,26 +24,36 @@ public class HelloWorld {
         });
 
         app.get("/", ctx -> {
-            ctx.render("index.jte");
+            ctx.render("layout/page.jte");
         });
 
         app.get("/users", ctx -> {
             var page = new UsersPage(USERS);
-            ctx.render("layout/users.jte", model("page", page));
+            ctx.render("index.jte", model("page", page));
         });
 
         app.get("/users/build", ctx -> {
-            ctx.render("users/build.jte");
+            var page = new BuildUserPage();
+            ctx.render("users/build.jte", model("page", page));
         });
 
         app.post("/users", ctx -> {
             var id = Data.getNextId();
-            var firstName = ctx.formParam("first_name");
-            var lastName = ctx.formParam("last_name");
-            var email = ctx.formParam("email");
-            User user = new User(id, firstName, lastName, email);
-            UserRepository.save(user);
-            ctx.redirect("/users");
+            var firstName = ctx.formParam("firstName");
+            var lastName = ctx.formParam("lastName");
+            var email = ctx.formParam("email").trim().toLowerCase();
+            try {
+                var passwordConfirmation = ctx.formParam("passwordConfirmation");
+                var password = ctx.formParamAsClass("password", String.class)
+                        .check(value -> value.equals(passwordConfirmation), "Пароли не совпадают")
+                        .get();
+                User user = new User(id, firstName, lastName, email, password);
+                UserRepository.save(user);
+                ctx.redirect("/users");
+            } catch (ValidationException e) {
+                var page = new BuildUserPage(id, firstName, lastName, email, e.getErrors());
+                ctx.render("users/build.jte", model("page", page));
+            }
         });
 
         app.start(7070);

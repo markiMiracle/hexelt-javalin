@@ -1,32 +1,20 @@
 
-@import gg.jte.Content
-@param Content content
+@import org.example.hexlet.dto.UsersPage
+@param UsersPage page
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>my site</title>
-</head>
-<body>
-<div class="navbar">
-    <div class="logo">
-        <div>Miracle</div>
-    </div>
-    <div class="menu">
-        <a href="/">Главная</a>
-    </div>
-    <div class="menu">
-        <a href="/users">Users</a>
-    </div>
-    <div class="menu">
-        <a href="/users/build">Регистрация</a>
-    </div>
-</div>
-<div class="content">
-    <h1>добро пожаловать на мой сайт)</h1>
-</div>
+@template.layout.page(
 
-</body>
-</html>
+    content = @`
+    <h1><a href="/users">Пользователи:</a>></h1>
+@if(page.getUsers().isEmpty())
+    <p>Пока не добавлено ни одного пользователя</p>
+@else
+    @for(var user : page.getUsers())
+        <ul>
+            <li>${user.getId()} ${user.getFirstName()} ${user.getLastName()}</li>
+        </ul>
+    @endfor
+@endif
+
+`
+)

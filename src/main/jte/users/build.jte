@@ -1,26 +1,52 @@
+@import org.example.hexlet.dto.BuildUserPage
+@param BuildUserPage page
 
 
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8" />
-    <title>Регистрация</title>
-</head>
-<body>
-<form action="/users" method="post">
-<div>
-    <label>Имя</label>
-    <input type="text" name="first_name" />
-</div>
-<div>
-    <label>Фамилия</label>
-    <input type="text" name="last_name" />
-</div>
-<div>
-    <label>Почта</label>
-    <input type="email" required name="email" />
-</div>
-<input type="submit" value="Зарегистрировать"/>
-</form>
-</body>
-</html>
+@template.layout.page (
+
+    content = @`
+
+    @if(page.getErrors() != null)
+        <ul>
+            @for(var validator: page.getErrors().values())
+                @for(var error: validator)
+                    <li>${error.getMessage()}</li>
+                @endfor
+            @endfor
+        </ul>
+    @endif
+
+
+    <form action="/users" method="post">
+        <div>
+            <label>Имя
+            <input type="text" name="firstName" value="${page.getFirstName()}" />
+            </label>
+        </div>
+        <div>
+            <label>Фамилия
+            <input type="text" name="lastName" value="${page.getLastName()}" />
+            </label>
+        </div>
+        <div>
+            <label>Почта
+            <input type="email" required name="email" value="${page.getEmail()}"/>
+            </label>
+        </div>
+        <div>
+            <label>
+                Пароль
+                <input type="password" required name="password" />
+            </label>
+        </div>
+        <div>
+            <label>
+                Подтверждение пароля
+                <input type="password" required name="passwordConfirmation" />
+            </label>
+        </div>
+        <input type="submit" value="Зарегистрировать"/>
+    </form>
+
+`
+)
