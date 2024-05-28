@@ -10,5 +10,6 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class UsersPage {
+    private Boolean visited;
     private List<User> users;
 }

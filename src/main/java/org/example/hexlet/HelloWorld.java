@@ -18,7 +18,8 @@ public class HelloWorld {
             config.fileRenderer(new JavalinJte());
         });
 
-        app.get("/", ctx -> {
+        app.get(NamedRoutes.rootPath(), ctx -> {
+
             ctx.render("layout/page.jte");
         });
 

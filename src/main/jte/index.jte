@@ -4,6 +4,10 @@
 @template.layout.page(
 
     content = @`
+
+    @if(!page.getVisited())
+        Это сообщение показывается только один раз. Если вы хотите увидеть его снова, сотрите куки
+    @endif
     <h1><a href="${org.example.hexlet.NamedRoutes.usersPath()}">Пользователи:</a></h1>
 @if(page.getUsers().isEmpty())
     <p>Пока не добавлено ни одного пользователя</p>

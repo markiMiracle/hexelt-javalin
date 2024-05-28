@@ -12,10 +12,17 @@ import org.example.hexlet.repository.UserRepository;
 import static io.javalin.rendering.template.TemplateUtil.model;
 
 public class UsersController {
+
+    public static void root(Context ctx) {
+        ctx.render("layout/page.jte");
+    }
+
     public static void index(Context ctx) {
+        var visited = Boolean.valueOf(ctx.cookie("visited"));
         var users = UserRepository.getEntities();
-        var page = new UsersPage(users);
+        var page = new UsersPage(visited, users);
         ctx.render("index.jte", model("page", page));
+        ctx.cookie("visited", String.valueOf(true));
     }
 
     public static void build(Context ctx) {
