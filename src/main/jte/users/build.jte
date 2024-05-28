@@ -1,3 +1,4 @@
+@import org.example.hexlet.NamedRoutes
 @import org.example.hexlet.dto.BuildUserPage
 @param BuildUserPage page
 
@@ -10,43 +11,67 @@
         <ul>
             @for(var validator: page.getErrors().values())
                 @for(var error: validator)
-                    <li>${error.getMessage()}</li>
+                    <li>
+                        <div class="alert alert-primary" role="alert">
+                            ${error.getMessage()}
+                        </div>
+                    </li>
                 @endfor
             @endfor
         </ul>
     @endif
 
 
-    <form action="/users" method="post">
-        <div>
-            <label>Имя
-            <input type="text" name="firstName" value="${page.getFirstName()}" />
-            </label>
+    <form class="row g-3 needs-validation" action="/users" method="post">
+        <div class="col-md-4">
+            <label for="validationCustom01" class="form-label">First name</label>
+            <input type="text" class="form-control" id="validationCustom01" value="${page.getFirstName()}" required name="firstName">
+            <div class="valid-feedback">
+                Looks good!
+            </div>
         </div>
-        <div>
-            <label>Фамилия
-            <input type="text" name="lastName" value="${page.getLastName()}" />
-            </label>
+        <div class="col-md-4">
+            <label for="validationCustom02" class="form-label">Last name</label>
+            <input type="text" class="form-control" id="validationCustom02" value="${page.getLastName()}" required name="lastName">
+            <div class="valid-feedback">
+                Looks good!
+            </div>
         </div>
-        <div>
-            <label>Почта
-            <input type="email" required name="email" value="${page.getEmail()}"/>
-            </label>
+        <div class="col-md-4">
+            <label for="validationCustom02" class="form-label">Email</label>
+            <input type="email" class="form-control" id="validationCustom02" value="${page.getEmail()}" required name="email">
+            <div class="valid-feedback">
+                Looks good!
+            </div>
         </div>
-        <div>
-            <label>
-                Пароль
-                <input type="password" required name="password" />
-            </label>
+        <div class="col-md-4">
+            <label for="validationCustom02" class="form-label">Password</label>
+            <input type="password" class="form-control" id="validationCustom02" required name="password">
+            <div class="valid-feedback">
+                Looks good!
+            </div>
         </div>
-        <div>
-            <label>
-                Подтверждение пароля
-                <input type="password" required name="passwordConfirmation" />
-            </label>
+        <div class="col-md-4">
+            <label for="validationCustom02" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="validationCustom02" value="${page.getEmail()}" required name="passwordConfirmation">
+            <div class="valid-feedback">
+                Looks good!
+            </div>
         </div>
-        <input type="submit" value="Зарегистрировать"/>
+        <div class="col-12">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                <label class="form-check-label" for="invalidCheck">
+                    Agree to terms and conditions
+                </label>
+                <div class="invalid-feedback">
+                    You must agree before submitting.
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <button class="btn btn-primary" type="submit">Submit form</button>
+        </div>
     </form>
-
 `
 )
