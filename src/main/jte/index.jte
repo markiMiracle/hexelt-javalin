@@ -1,25 +1,17 @@
-@import org.example.hexlet.dto.UsersPage
-@param UsersPage page
+@import org.example.hexlet.dto.MainPage
+@param MainPage page
 
-@template.layout.page(
 
+@template.layout.page (
     content = @`
+    @if(page.getCurrentUser() != null)
+        <h3>
+        Добро пожаловать, ${page.getCurrentUser()}.
+        Чтобы разлогиниться, удалите куку JSESSIONID из браузера
+        </h3>
 
-    @if(!page.getVisited())
-        Это сообщение показывается только один раз. Если вы хотите увидеть его снова, сотрите куки
+    @else
+        <h3>вы не зарегестрированы</h3>
     @endif
-    <h1><a href="${org.example.hexlet.NamedRoutes.usersPath()}">Пользователи:</a></h1>
-@if(page.getUsers().isEmpty())
-    <p>Пока не добавлено ни одного пользователя</p>
-@else
-    @for(var user : page.getUsers())
-        <ul>
-            <a href="users/${user.getId()}">
-                <li>${user.getId()} ${user.getFirstName()} ${user.getLastName()}</li>
-            </a>
-        </ul>
-    @endfor
-@endif
-
 `
 )

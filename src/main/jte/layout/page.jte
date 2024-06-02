@@ -1,5 +1,4 @@
 @import gg.jte.Content
-@import org.example.hexlet.NamedRoutes
 @param Content content
 <html lang="en">
 <head>
